@@ -96,8 +96,12 @@ app.get('/documents', auth, async (req, res) => {
 });
 
 // Fallback para SPA simple
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/home', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'home.html'));
 });
 
 app.listen(PORT, () => {

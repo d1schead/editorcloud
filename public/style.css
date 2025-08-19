@@ -1,0 +1,52 @@
+:root{
+    --fuente-principal: 'Segoe UI';
+    --fuente-secundaria: 'sans-serif';
+    --primario : #31f1ff;
+    --secundario: #3524ea;
+    --gris-oscuro: #a4a4a4;
+    --blanco: #fff;
+    --gris-claro: #EBEBEB;
+    --negro: #000;
+}
+
+.login{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    min-height: 100svh;
+    background-color: #31f1ff;
+}
+
+p{
+  font-size: var(--fuente-secundaria); 
+  font-size: 1.2rem;
+}
+
+h1{
+    font-size: var(--fuente-principal);
+    font-size: 1.8rem;
+}
+
+.form-container{
+    width: 500px;
+    text-align: center;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+form+p{
+    text-align: center;
+}
+
+input, button{
+    border-radius: 4px;
+    border: unset;
+    padding: 15px 30px;
+    
+}

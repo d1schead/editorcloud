@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<title>Editor</title>
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+</head>
+<body>
+<h2>Editor de Texto</h2>
+<div id="editor" style="height:200px;"></div>
+<button onclick="guardar()">Guardar</button>
+<button onclick="cerrarSesion()">Cerrar Sesión</button>
+
+<h3>Mis documentos</h3>
+<ul id="docs"></ul>
+
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script>
+const quill = new Quill('#editor', { theme: 'snow' });
+const token = localStorage.getItem('token');
+if (!token) window.location.href = '/';
+
+async function guardar() {
+  const res = await fetch('/save', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+    body: JSON.stringify({ content: quill.root.innerHTML })
+  });
+  alert((await res.json()).ok ? 'Guardado' : 'Error');
+  cargarDocs();
+}
+
+async function cargarDocs() {
+  const res = await fetch('/documents', { headers: { 'Authorization': 'Bearer ' + token } });
+  const docs = await res.json();
+  const lista = document.getElementById('docs');
+  lista.innerHTML = '';
+  docs.forEach(doc => {
+    const li = document.createElement('li');
+    li.innerHTML = `[${doc.created_at}] ${doc.content.substring(0, 30)}...`;
+    lista.appendChild(li);
+  });
+}
+
+function cerrarSesion() {
+  localStorage.removeItem('token');
+  window.location.href = '/';
+}
+
+cargarDocs();
+</script>
+</body>
+</html>

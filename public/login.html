@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="style.css">
+<title>Login</title>
+</head>
+<body class="login">
+<div class="form-container">
+<h2>Bienvenido</h2>
+    <p>Ingresa tu usuario y contraseña</p>
+    <form id="login-form">
+    <input id="username" placeholder="Usuario"><br>
+    <input id="password" type="password" placeholder="Contraseña"><br>
+    </form>
+    <button onclick="login()">Entrar</button>
+    <button onclick="register()">Registrar</button>
+</div>
+<script>
+async function login() {
+  const res = await fetch('/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username: document.getElementById('username').value,
+      password: document.getElementById('password').value
+    })
+  });
+  const data = await res.json();
+  if (data.token) {
+    localStorage.setItem('token', data.token);
+    window.location.href = '/home';
+  } else {
+    alert(data.error);
+  }
+}
+
+async function register() {
+  const res = await fetch('/register', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username: document.getElementById('username').value,
+      password: document.getElementById('password').value
+    })
+  });
+  const data = await res.json();
+  alert(data.ok ? 'Usuario registrado' : data.error);
+}
+</script>
+</body>
+</html>
